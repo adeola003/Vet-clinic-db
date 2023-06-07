@@ -10,3 +10,19 @@ CREATE TABLE animals (
 
     ALTER TABLE animals
 vet_clinic-# ADD COLUMN species varchar(100);
+
+ALTER TABLE animals ADD COLUMN species_id INTEGER REFERENCES species(id);
+
+ALTER TABLE animals ADD COLUMN owner_id INTEGER REFERENCES owners(id);
+
+CREATE TABLE owners (
+  id SERIAL PRIMARY KEY,
+  full_name VARCHAR(100),
+  age INTEGER
+);
+
+CREATE TABLE species (
+  id SERIAL PRIMARY KEY,
+  name VARCHAR(100)
+);
+
