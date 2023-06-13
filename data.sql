@@ -20,4 +20,10 @@ ALTER TABLE animals ADD CONSTRAINT fk_animals_owner FOREIGN KEY (owner_id) REFER
 ALTER TABLE visits ADD CONSTRAINT fk_visits_animal FOREIGN KEY (animal_id) REFERENCES animals (id);
 ALTER TABLE visits ADD CONSTRAINT fk_visits_vet FOREIGN KEY (vet_id) REFERENCES vets (id);
 
+-- Create indexes on frequently used columns
+CREATE INDEX idx_animals_species_id ON animals(species_id);
+CREATE INDEX idx_animals_owner_id ON animals(owner_id);
+CREATE INDEX idx_visits_animal_id ON visits(animal_id);
+CREATE INDEX idx_visits_vet_id ON visits(vet_id);
+
 
