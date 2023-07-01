@@ -1,58 +1,49 @@
-/* Database schema to keep the structure of entire database. */
 
-CREATE TABLE animals (
-    id integer PRIMARY KEY NOT NULL,
-    name varchar(100),
-    date_of_birth date,
-    escape_attempts integer,
-    neutered boolean,
-    weight_kg decimal);
 
-    ALTER TABLE animals
-vet_clinic-# ADD COLUMN species varchar(100);
-
-ALTER TABLE animals ADD COLUMN species_id INTEGER REFERENCES species(id);
-
-ALTER TABLE animals ADD COLUMN owner_id INTEGER REFERENCES owners(id);
-
-CREATE TABLE owners (
-  id SERIAL PRIMARY KEY,
-  full_name VARCHAR(100),
-  age INTEGER
+CREATE TABLE owners(
+  id INT GENERATED ALWAYS AS IDENTITY,
+  full_name VARCHAR(20),
+  age INT,
+  PRIMARY KEY(id)
 );
 
-CREATE TABLE species (
-  id SERIAL PRIMARY KEY,
-  name VARCHAR(100)
+CREATE TABLE species(
+  id INT GENERATED ALWAYS AS IDENTITY,
+  name VARCHAR(20),
+  PRIMARY KEY(id)
 );
 
--- Create the vets table
-CREATE TABLE vets (
-  id SERIAL PRIMARY KEY,
-  name VARCHAR(100),
-  age INTEGER,
-  date_of_graduation DATE
+CREATE TABLE animals(
+  id INT GENERATED ALWAYS AS IDENTITY,
+  name VARCHAR(20),
+  date_of_birth DATE,
+  escape_attempts INT,
+  neutered BOOLEAN,
+  weight_kg DECIMAL,
+  species_id INT REFERENCES species(id),
+  owner_id INT REFERENCES owners(id),
+  PRIMARY KEY(id)
 );
 
--- Create the species table
-CREATE TABLE species (
-  id SERIAL PRIMARY KEY,
-  name VARCHAR(100)
+CREATE TABLE vets(
+  id INT GENERATED ALWAYS AS IDENTITY,
+  name VARCHAR(20),
+  age INT,
+  date_of_graduation DATE,
+  PRIMARY KEY(id)
 );
 
-
--- Create the specializations join table
-CREATE TABLE specializations (
-  vet_id INTEGER REFERENCES vets(id),
-  species_id INTEGER REFERENCES species(id),
-  PRIMARY KEY (vet_id, species_id)
+CREATE TABLE specializations(
+  id INT GENERATED ALWAYS AS IDENTITY,
+  species_id INT REFERENCES species(id),
+  vet_id INT REFERENCES vets(id),
+  PRIMARY KEY(id)
 );
 
-
--- Create the visits join table
-CREATE TABLE visits (
-  animal_id INTEGER REFERENCES animals(id),
-  vet_id INTEGER REFERENCES vets(id),
-  visit_date DATE,
-  PRIMARY KEY (animal_id, vet_id, visit_date)
+CREATE TABLE visits(
+  id INT GENERATED ALWAYS AS IDENTITY,
+  animal_id INT REFERENCES animals(id),
+  vet_id INT REFERENCES vets(id),
+  date_of_visit DATE,
+  PRIMARY KEY(id)
 );
